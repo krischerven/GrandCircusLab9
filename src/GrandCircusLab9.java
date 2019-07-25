@@ -8,6 +8,10 @@ final class Item {
 		price = _price;
 		quantity = 1;
 	}
+	@Override
+	public String toString() {
+		return name + ": $" + price;
+	}
 	public String toString(final String extra) {
 		String ret = name + extra + "$" + price;
 		if (quantity > 1) {
@@ -113,7 +117,15 @@ public class GrandCircusLab9 {
 		System.out.println("Item	" + "				" + "Price" + "\n===============================================");
 		
 		double total = 0;
+		Item cheapest = null;
+		Item expensivest = null;
 		for (final Item i : order) {
+			if (cheapest == null || i.getPrice() < cheapest.getPrice()) {
+				cheapest = i;
+			}
+			if (expensivest == null || i.getPrice() > expensivest.getPrice()) {
+				expensivest = i;
+			}
 			final int spacing = 40 - i.getName().length();
 			String spacing2 = "";
 			for (int j = 0; j < spacing; ++j) {
@@ -124,7 +136,9 @@ public class GrandCircusLab9 {
 		}
 		
 		System.out.println("\nTotal Cost: $" + total);
-		System.out.print("Average Cost: $" + avgCost(order));
+		System.out.println("Average Cost: $" + avgCost(order));
+		System.out.println("Most Expensive Item: " + expensivest.toString());
+		System.out.println("Least Expensive Item: " + cheapest.toString());
 	}
 	
 	public static int highestIndex(final ArrayList<Item> items) {
