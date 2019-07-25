@@ -62,13 +62,13 @@ public class GrandCircusLab9 {
 		items.sort(new ItemSorter());
 		
 		System.out.println("Item	" + "				" + "Price" + "\n===============================================");
-		for (final Item i : items) {
-			final int spacing = 40 - i.getName().length();
+		for (int i = 0; i < items.size(); ++i) {
+			final int spacing = 40 - items.get(i).getName().length();
 			String spacing2 = "";
 			for (int j = 0; j < spacing; ++j) {
 				spacing2 += " ";
 			}
-			System.out.println(i.toString(spacing2));
+			System.out.println((i+1) + ". " + items.get(i).toString(spacing2));
 		}
 		
 		/*System.out.println("Index of lowest value: " + lowestIndex(items));
@@ -82,11 +82,18 @@ public class GrandCircusLab9 {
 		int iter = 0;
 		while (cont) {
 			if (++iter == 1) {
-				System.out.println("Select an item from the list. Type \"Q\" to quit.");
+				System.out.println("Select an item or item number from the list. Type \"Q\" to quit.");
 			} else {
-				System.out.println("Select another item from the list. Type \"Q\" to quit.");
+				System.out.println("Select an item or item number another item from the list. Type \"Q\" to quit.");
 			}
-			final String tmp = sc.nextLine();
+			String tmp = sc.nextLine();
+			try {
+				final int tmp2 = Integer.parseInt(tmp);
+				if (tmp2 > 0 && tmp2 <= items.size()) {
+					tmp = items.get(tmp2-1).getName();
+					System.out.println("You selected " + tmp + ".");
+				}
+			} catch (NumberFormatException e) {}
 			if (tmp.toLowerCase().trim().equals("q")) {
 				cont = false;
 			} else {
