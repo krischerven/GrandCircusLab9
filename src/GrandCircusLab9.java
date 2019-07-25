@@ -6,17 +6,29 @@ final class Item {
 	public Item(final String _name, final double _price) {
 		name = _name;
 		price = _price;
+		quantity = 1;
 	}
 	public String toString(final String extra) {
-		return name + extra + "$" + price;
+		String ret = name + extra + "$" + price;
+		if (quantity > 1) {
+			ret += (" x"+quantity);
+		}
+		return ret;
 	}
 	private String name;
 	private double price;
+	private int quantity;
 	public String getName() {
 		return name;
 	}
 	public double getPrice() {
 		return price;
+	}
+	public void incQuantity() {
+		++quantity;
+	}
+	public int getQuantity() {
+		return quantity;
 	}
 }
 
@@ -77,7 +89,16 @@ public class GrandCircusLab9 {
 				boolean test = false;
 				for (final Item i : items) {
 					if (i.getName().equalsIgnoreCase(tmp)) {
-						order.add(i);
+						boolean inced = false;
+						for (final Item i2 : order) {
+							if (i2.getName().equalsIgnoreCase(tmp)) {
+								i2.incQuantity();
+								inced = true;
+							}
+						}
+						if (!inced) {
+							order.add(i);
+						}
 						test = true;
 						break;
 					}
@@ -99,7 +120,7 @@ public class GrandCircusLab9 {
 				spacing2 += " ";
 			}
 			System.out.println(i.toString(spacing2));
-			total += i.getPrice();
+			total += i.getPrice()*i.getQuantity();
 		}
 		
 		System.out.println("\nTotal Cost: $" + total);
